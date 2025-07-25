@@ -1,0 +1,9 @@
+body {
+  font-family: Arial, sans-serif;
+}
+#message {
+  color: green;
+}
+#message.error {
+  color: red;
+}
