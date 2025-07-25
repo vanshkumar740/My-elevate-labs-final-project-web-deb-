@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SaaS Landing Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-100">
+  <header class="bg-blue-600 text-white py-16 text-center">
+    <h1 class="text-4xl font-bold">Welcome to Our SaaS</h1>
+    <p class="mt-4 text-lg">Sign up to get started with our amazing product!</p>
+  </header>
+  <section class="max-w-md mx-auto mt-8 p-6 bg-white rounded shadow">
+    <h2 class="text-2xl font-semibold mb-4">Sign Up</h2>
+    <form id="signupForm" class="space-y-4">
+      <div>
+        <label for="name" class="block">Name</label>
+        <input type="text" id="name" class="w-full p-2 border rounded" required>
+      </div>
+      <div>
+        <label for="email" class="block">Email</label>
+        <input type="email" id="email" class="w-full p-2 border rounded" required>
+      </div>
+      <div>
+        <label for="password" class="block">Password</label>
+        <input type="password" id="password" class="w-full p-2 border rounded" required>
+      </div>
+      <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Sign Up</button>
+    </form>
+    <p id="message" class="mt-4 text-center"></p>
+  </section>
+  <footer class="bg-gray-800 text-white text-center py-4 mt-8">
+    <p>© 2025 SaaS Product. All rights reserved.</p>
+  </footer>
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const message = document.getElementById('message');
+      try {
+        const response = await fetch('/api/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password })
+        });
+        const data = await response.json();
+        message.textContent = data.message;
+        if (response.ok) {
+          setTimeout(() => window.location.href = '/thank-you.html', 2000);
+        } else {
+          message.className = 'error';
+          message.textContent = data.message || 'Error signing up.';
+        }
+      } catch (error) {
+        message.className = 'error';
+        message.textContent = 'Error signing up. Try again.';
+      }
+    });
+  </script>
+</body>
+</html>
